@@ -9,6 +9,19 @@ Automatically enable tab autocompletion for shells in Click CLI applications.
 `auto-click-auto` is a small Python library that is used to quickly and easily add tab shell completion support for
 _Bash_ (version 4.4 and up), _Zsh_, and _Fish_, for [Click](https://click.palletsprojects.com/en/8.1.x/#) CLI programs.
 
+## About this fork
+This project is a modified version of [auto-click-auto](https://github.com/KAUTH/auto-click-auto) by [KAUTH](https://github.com/KAUTH).
+
+The main difference is the way automatic shell completion is implemented. 
+
+In the original version, auto-click-auto generates the command completion scripts everytime the shell is opened, by adding an `eval` instruction to the shell configuration file. 
+According to the official [click docs](https://click.palletsprojects.com/en/stable/shell-completion/#enabling-completion), this has perfomance drawbacks: 
+> Using eval means that the command is invoked and evaluated every time a shell is started, which can delay shell responsiveness
+
+ This Fork aims to solve the perfomace hit by utilizing Clicks alternative approach:
+> To speed it up, write the generated script to a file, then source that.
+
+
 ## Installation
 ```commandline
 pip install auto-click-auto
