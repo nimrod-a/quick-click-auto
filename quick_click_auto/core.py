@@ -5,6 +5,7 @@
 
 import os
 import platform
+import subprocess
 from typing import TYPE_CHECKING, Any, Callable, Optional, Set, TypeVar, Union
 
 from click import Command, Context, Parameter, option
@@ -64,8 +65,6 @@ def enable_click_shell_completion(
 
         return None
 
-    click_env_var = f"_{program_name.upper().replace('-', '_')}_COMPLETE"
-
     if shells is None:
         try:
             shells = {detect_shell()}
@@ -79,33 +78,21 @@ def enable_click_shell_completion(
     for shell in shells:
 
         if shell in (ShellType.BASH, ShellType.ZSH):
-            shell_config_file = os.path.expanduser(f"~/.{shell.value}rc")
 
-            # Completion implementation: `eval` command in shell configuration
-            eval_command = (
-                f'eval \"$({click_env_var}={shell.value}_source '
-                f'{program_name})\"'
-            )
-            safe_eval_command = (
-                f"command -v {program_name} > /dev/null 2>&1 && "
-                f"{eval_command}"
-            )
+            # Translates to ~/.foo-bar-complete.shell
+            completion_script_path = os.path.expanduser(
+                f"~/.{program_name.lower().replace('-', '_')}.{shell.value}")
 
-            old_config_string = (
-                "# Shell completion configuration for the Click Python " +
-                "package\n" + f"{eval_command}"
-            )
-            remove_shell_configuration(
-                shell_config_file=shell_config_file,
-                config_string=old_config_string,
-                verbose=verbose
-            )
+            # Translates to "$(_FOO_BAR_COMPLETE=shell_source foo-bar)"
+            completion_script_function = f"$(_{program_name.upper().replace('-', '_')}_COMPLETE={shell.value}_source {program_name})"
 
-            add_shell_configuration(
-                shell_config_file=shell_config_file,
-                config_string=safe_eval_command,
-                verbose=verbose,
+            # Completion implementation: generate and source completion scripts
+            generate_and_source_command = (
+                f'echo \"{completion_script_function}\" > {completion_script_path} && . {completion_script_path}'
             )
+            # Execute the command in the shell
+            print(f"Executing {generate_and_source_command}")
+            subprocess.run(generate_and_source_command, shell=True, check=True)
 
         else:
             raise NotImplementedError
