@@ -1,6 +1,5 @@
 [![GitHub license](https://img.shields.io/github/license/KAUTH/auto-click-auto)](https://github.com/KAUTH/auto-click-auto/blob/master/LICENSE).
 [![pypi](https://img.shields.io/pypi/v/auto-click-auto.svg)](https://pypi.org/project/quick-click-auto/)
-![PyPI - Downloads](https://pypi.org/project/quick-click-auto/)
 
 # quick-click-auto
 Enable quick tab autocompletion for complex Click CLI applications. 
