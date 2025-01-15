@@ -1,3 +1,8 @@
+# This file is part of quick-click-auto.
+# It is based on [auto-click-auto](https://github.com/KAUTH/auto-click-auto/)
+# by Konstantinos Papadopoulos .
+# Licensed under the MIT License.
+
 import os
 from typing import List, Optional
 
@@ -67,7 +72,7 @@ def remove_shell_configuration(
     """
     Remove the given string from the specified shell configuration file.
     This function is used to clean files from configuration added by
-    `auto-click-auto`.
+    `quick-click-auto`.
 
     :param shell_config_file: The shell configuration file to remove the string
     from.

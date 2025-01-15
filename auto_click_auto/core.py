@@ -1,3 +1,8 @@
+# This file is part of quick-click-auto.
+# It is based on [auto-click-auto](https://github.com/KAUTH/auto-click-auto/)
+# by Konstantinos Papadopoulos .
+# Licensed under the MIT License.
+
 import os
 import platform
 from typing import TYPE_CHECKING, Any, Callable, Optional, Set, TypeVar, Union
@@ -31,11 +36,11 @@ def enable_click_shell_completion(
     """
     Enable tab completion for Click's supported shell types.
 
-    If ``shells`` is not provided, `auto-click-auto` will attempt to detect the
+    If ``shells`` is not provided, `quick-click-auto` will attempt to detect the
     shell type the user is currently running the program on.
 
     See https://click.palletsprojects.com/en/latest/shell-completion.
-    `auto-click-auto` is using the `eval` command implementation suggested from
+    `quick-click-auto` is using the `eval` command implementation suggested from
     Click.
 
     :param program_name: The program name for which we enable shell completion,
@@ -55,7 +60,7 @@ def enable_click_shell_completion(
         if verbose is True:
             print(
                 f"{os_name} is not one of the supported Operating Systems "
-                f"({supported_os}) of `auto-click-auto`."
+                f"({supported_os}) of `quick-click-auto`."
             )
 
         return None
@@ -82,7 +87,7 @@ def enable_click_shell_completion(
                 f'eval \"$({click_env_var}={shell.value}_source '
                 f'{program_name})\"'
             )
-            safe_eval_command =(
+            safe_eval_command = (
                 f"command -v {program_name} > /dev/null 2>&1 && "
                 f"{eval_command}"
             )
@@ -154,7 +159,7 @@ def enable_click_shell_completion_option(
 
     If ``program_name`` is not provided, it will be detected from the command.
 
-    If ``shells`` is not provided, `auto-click-auto` will attempt to detect the
+    If ``shells`` is not provided, `quick-click-auto` will attempt to detect the
     shell type the user is currently running the program on.
 
     Uses Click's `option` function. It is possible to pass the relevant

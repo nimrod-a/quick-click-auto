@@ -1,3 +1,8 @@
+# This file is part of quick-click-auto.
+# It is based on [auto-click-auto](https://github.com/KAUTH/auto-click-auto/)
+# by Konstantinos Papadopoulos .
+# Licensed under the MIT License.
+
 from enum import Enum
 from typing import List, Set
 
