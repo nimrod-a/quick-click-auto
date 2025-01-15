@@ -1,4 +1,0 @@
-# Example fish config file
-
-# Shell completion configuration for the Click Python package
-_EXAMPLE_2_COMPLETE=fish_source example-2 | source
