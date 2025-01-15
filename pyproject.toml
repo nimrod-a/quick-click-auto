@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "auto-click-auto"
-version = "0.1.5"
-description = "Automatically enable tab autocompletion for shells in Click CLI applications."
-authors = ["Konstantinos Papadopoulos <konpap1996@yahoo.com>"]
-maintainers = ["Konstantinos Papadopoulos <konpap1996@yahoo.com>"]
+name = "quick-click-auto"
+version = "0.0.1"
+description = " Enable quick tab autocompletion for complex Click CLI applications. "
+authors = ["Nim <nim@systemli.org>"]
+maintainers = ["Nim <nim@systemli.org>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/KAUTH/auto-click-auto"
-repository = "https://github.com/KAUTH/auto-click-auto"
-documentation = "https://github.com/KAUTH/auto-click-auto/blob/main/README.md"
+homepage = "https://github.com/nimrod-a/quick-click-auto"
+repository = "https://github.com/nimrod-a/quick-click-auto"
+documentation = "https://github.com/nimrod-a/quick-click-auto/blob/main/README.md"
 keywords = ["click", "autocomplete", "shell"]
 classifiers=[
         "License :: OSI Approved :: MIT License",
@@ -24,7 +24,7 @@ classifiers=[
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development",
 ]
-packages = [{include = "auto_click_auto"}]
+packages = [{include = "quick_click_auto"}]
 
 [tool.poetry.dependencies]
 python = "^3.7"
