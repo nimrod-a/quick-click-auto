@@ -12,7 +12,6 @@ class ShellType(str, Enum):
 
     BASH = "bash"
     ZSH = "zsh"
-    FISH = "fish"
 
     @classmethod
     def get_all(cls) -> Set[str]:

@@ -42,7 +42,7 @@ def shell_completion():
     """Activate shell completion for this program."""
     enable_click_shell_completion(
         program_name="example-2",
-        shells={ShellType.BASH, ShellType.FISH, ShellType.ZSH},
+        shells={ShellType.BASH, ShellType.ZSH},
         verbose=True,
     )
 

@@ -40,8 +40,7 @@ def enable_click_shell_completion(
     shell type the user is currently running the program on.
 
     See https://click.palletsprojects.com/en/latest/shell-completion.
-    `quick-click-auto` is using the `eval` command implementation suggested from
-    Click.
+    `quick-click-auto` is using 
 
     :param program_name: The program name for which we enable shell completion,
     also described as the executable name.
@@ -105,41 +104,6 @@ def enable_click_shell_completion(
             add_shell_configuration(
                 shell_config_file=shell_config_file,
                 config_string=safe_eval_command,
-                verbose=verbose,
-            )
-
-        elif shell == ShellType.FISH:
-            completer_script_path = os.path.expanduser(
-                f"~/.config/fish/completions/{program_name}.{shell.value}"
-            )
-
-            # bash and zsh config files are generic, so we can assume the user
-            # already has created them. fish's shell configuration file for
-            # custom completions is specific to the program name, so we will
-            # create it if it doesn't already exist.
-            create_file(file_path=completer_script_path)
-
-            command = (
-                f"{click_env_var}={shell.value}_source {program_name} | source"
-            )
-            safe_command = (
-                f"command -v {program_name} > /dev/null 2>&1 && "
-                f"{command}"
-            )
-
-            old_config_string = (
-                "# Shell completion configuration for the Click Python " +
-                "package\n" + f"{command}"
-            )
-            remove_shell_configuration(
-                shell_config_file=completer_script_path,
-                config_string=old_config_string,
-                verbose=verbose,
-            )
-
-            add_shell_configuration(
-                shell_config_file=completer_script_path,
-                config_string=safe_command,
                 verbose=verbose,
             )
 

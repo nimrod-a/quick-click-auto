@@ -4,7 +4,7 @@
 Enable quick tab autocompletion for complex Click CLI applications. 
 
 `quick-click-auto` is a small Python library that is used to quickly add tab shell completion support for
-_Bash_ (version 4.4 and up), _Zsh_, and _Fish_, for [Click](https://click.palletsprojects.com/en/8.1.x/#) CLI programs, and can be easily integrated as a Click command: 
+_Bash_ (version 4.4 and up), _Zsh_ for [Click](https://click.palletsprojects.com/en/8.1.x/#) CLI programs, and can be easily integrated as a Click command: 
 ```commandline
 foo-bar --generate-command-completion 
 ```
@@ -106,7 +106,7 @@ def shell_completion():
     """Activate shell completion for this program."""
     enable_click_shell_completion(
         program_name="example-3",
-        shells={ShellType.BASH, ShellType.FISH, ShellType.ZSH},
+        shells={ShellType.BASH, ShellType.ZSH},
         verbose=True,
     )
 ```
