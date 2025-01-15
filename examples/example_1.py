@@ -12,7 +12,7 @@
 
 import click
 
-from auto_click_auto import enable_click_shell_completion_option
+from quick_click_auto import enable_click_shell_completion_option
 
 
 @click.command()

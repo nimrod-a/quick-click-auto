@@ -6,8 +6,8 @@
 import os
 from typing import List, Optional
 
-from auto_click_auto.constants import ShellType
-from auto_click_auto.exceptions import (
+from quick_click_auto.constants import ShellType
+from quick_click_auto.exceptions import (
     ShellConfigurationFileNotFoundError,
     ShellEnvVarNotFoundError,
     ShellTypeNotSupportedError,

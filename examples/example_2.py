@@ -12,8 +12,8 @@
 
 import click
 
-from auto_click_auto import enable_click_shell_completion
-from auto_click_auto.constants import ShellType
+from quick_click_auto import enable_click_shell_completion
+from quick_click_auto.constants import ShellType
 
 
 @click.group()
