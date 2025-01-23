@@ -79,6 +79,8 @@ def enable_click_shell_completion(
 
         if shell in (ShellType.BASH, ShellType.ZSH):
 
+            # Generate command completion script
+
             # Translates to ~/.foo-bar-complete.shell
             completion_script_path = os.path.expanduser(
                 f"~/.{program_name.lower().replace('-', '_')}.{shell.value}")
@@ -88,11 +90,35 @@ def enable_click_shell_completion(
 
             # Completion implementation: generate and source completion scripts
             generate_and_source_command = (
-                f'echo \"{completion_script_function}\" > {completion_script_path} && . {completion_script_path}'
+                f'echo \"{completion_script_function}\" > {completion_script_path} 2>/dev/null && . {completion_script_path} 2>/dev/null'
             )
             # Execute the command in the shell
             print(f"Executing {generate_and_source_command}")
             subprocess.run(generate_and_source_command, shell=True, check=True)
+
+            # Edit shell config to auto source the file
+            shell_config_file = os.path.expanduser(f"~/.{shell.value}rc")
+
+            source_command = (
+                f'source {completion_script_path} > /dev/null 2>&1'
+            )
+
+            old_config_string = (
+                "# Shell completion configuration for the Click Python " +
+                "package\n" + f"{program_name}"
+            )
+
+            remove_shell_configuration(
+                shell_config_file=shell_config_file,
+                config_string=old_config_string,
+                verbose=verbose
+            )
+
+            add_shell_configuration(
+                shell_config_file=shell_config_file,
+                config_string=source_command,
+                verbose=verbose,
+            )
 
         else:
             raise NotImplementedError
