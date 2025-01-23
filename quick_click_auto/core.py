@@ -93,8 +93,10 @@ def enable_click_shell_completion(
                 f'echo \"{completion_script_function}\" > {completion_script_path} 2>/dev/null && . {completion_script_path} 2>/dev/null'
             )
             # Execute the command in the shell
-            print(f"Executing {generate_and_source_command}")
-            subprocess.run(generate_and_source_command, shell=True, check=True)
+            print(f"Executing '{generate_and_source_command}'")
+            with open(os.devnull, 'w') as devnull:
+                subprocess.run(generate_and_source_command,
+                               shell=True, check=True, stderr=devnull)
 
             # Edit shell config to auto source the file
             shell_config_file = os.path.expanduser(f"~/.{shell.value}rc")
