@@ -79,24 +79,9 @@ def enable_click_shell_completion(
 
         if shell in (ShellType.BASH, ShellType.ZSH):
 
-            # Generate command completion script
-
             # Translates to ~/.foo-bar-complete.shell
             completion_script_path = os.path.expanduser(
                 f"~/.{program_name.lower().replace('-', '_')}.{shell.value}")
-
-            # Translates to "$(_FOO_BAR_COMPLETE=shell_source foo-bar)"
-            completion_script_function = f"$(_{program_name.upper().replace('-', '_')}_COMPLETE={shell.value}_source {program_name})"
-
-            # Completion implementation: generate and source completion scripts
-            generate_and_source_command = (
-                f'echo \"{completion_script_function}\" > {completion_script_path} 2>/dev/null && . {completion_script_path} 2>/dev/null'
-            )
-            # Execute the command in the shell
-            print(f"Executing '{generate_and_source_command}'")
-            with open(os.devnull, 'w') as devnull:
-                subprocess.run(generate_and_source_command,
-                               shell=True, check=True, stderr=devnull)
 
             # Edit shell config to auto source the file
             shell_config_file = os.path.expanduser(f"~/.{shell.value}rc")
@@ -121,6 +106,19 @@ def enable_click_shell_completion(
                 config_string=source_command,
                 verbose=verbose,
             )
+
+            # Translates to "$(_FOO_BAR_COMPLETE=shell_source foo-bar)"
+            completion_script_function = f"$(_{program_name.upper().replace('-', '_')}_COMPLETE={shell.value}_source {program_name})"
+
+            # Completion implementation: generate and source completion scripts
+            generate_script_command = (
+                f'echo \"{completion_script_function}\" > {completion_script_path}'
+            )
+            # Execute the command in the shell
+            print(f"Executing '{generate_script_command}'")
+            with open(os.devnull, 'w') as devnull:
+                subprocess.run(generate_script_command,
+                               shell=True, check=True, stderr=devnull)
 
         else:
             raise NotImplementedError
