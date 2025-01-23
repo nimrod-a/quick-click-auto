@@ -7,7 +7,7 @@ Enable quick tab autocompletion for complex Click CLI applications.
 `quick-click-auto` is a small Python library that is used to quickly add tab shell completion support for
 _Bash_ (version 4.4 and up), _Zsh_ for [Click](https://click.palletsprojects.com/en/8.1.x/#) CLI programs, and can be easily integrated as a Click command: 
 ```commandline
-foo-bar --generate-command-completion 
+foo-bar shell-completion
 ```
 
 ## Why this fork exists
@@ -50,28 +50,7 @@ set to an extra verbosity if you want to display information about already confi
 Here are some typical ways to enable autocompletion with `quick-click-auto`:
 
 
-1) **Make shell completion a Click command option**
-
-Example:
-```python
-import click
-
-from quick_click_auto import enable_click_shell_completion_option
-
-
-@click.command()
-@enable_click_shell_completion_option(program_name="example-2")
-@click.option('--count', default=1, help='Number of greetings.')
-@click.option('--name', prompt='Your name', help='The person to greet.')
-def hello(count, name):
-    """Simple program that greets NAME for a total of COUNT times."""
-    for x in range(count):
-        click.echo(f"Hello {name}!")
-```
-
-2) **Make shell completion a command (or subcommand of a group)**
-
-This implementation option might be useful if you already have a "configuration" command in your CLI program.
+1) **Make shell completion a command (or subcommand of a group)**
 
 Example:
 ```python
@@ -106,7 +85,7 @@ def config():
 def shell_completion():
     """Activate shell completion for this program."""
     enable_click_shell_completion(
-        program_name="example-3",
+        program_name="example",
         shells={ShellType.BASH, ShellType.ZSH},
         verbose=True,
     )
