@@ -86,8 +86,8 @@ def enable_click_shell_completion(
             # Shell configuration file path
             shell_config_file = os.path.expanduser(f"~/.{shell.value}rc")
 
-            # Translates to "$(_FOO_BAR_COMPLETE=shell_source foo-bar)"
-            completion_script_function = f"$(_{program_name.upper().replace('-', '_')}_COMPLETE={shell.value}_source {program_name})"
+            # Translates to _FOO_BAR_COMPLETE=shell_source foo-bar
+            completion_script_function = f"_{program_name.upper().replace('-', '_')}_COMPLETE={shell.value}_source {program_name}"
 
             # Try generating and auto-sourcing completion scripts
             try:
@@ -113,7 +113,7 @@ def enable_click_shell_completion(
                 )
 
                 generate_script_command = (
-                    f'echo \"{completion_script_function}\" > {completion_script_path}'
+                    f'{completion_script_function} > {completion_script_path}'
                 )
 
                 # Execute the command in the shell
