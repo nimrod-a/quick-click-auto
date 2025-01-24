@@ -83,42 +83,60 @@ def enable_click_shell_completion(
             completion_script_path = os.path.expanduser(
                 f"~/.{program_name.lower().replace('-', '_')}.{shell.value}")
 
-            # Edit shell config to auto source the file
+            # Shell configuration file path
             shell_config_file = os.path.expanduser(f"~/.{shell.value}rc")
-
-            source_command = (
-                f'source {completion_script_path} > /dev/null 2>&1'
-            )
-
-            old_config_string = (
-                "# Shell completion configuration for the Click Python " +
-                "package\n" + f"{program_name}"
-            )
-
-            remove_shell_configuration(
-                shell_config_file=shell_config_file,
-                config_string=old_config_string,
-                verbose=verbose
-            )
-
-            add_shell_configuration(
-                shell_config_file=shell_config_file,
-                config_string=source_command,
-                verbose=verbose,
-            )
 
             # Translates to "$(_FOO_BAR_COMPLETE=shell_source foo-bar)"
             completion_script_function = f"$(_{program_name.upper().replace('-', '_')}_COMPLETE={shell.value}_source {program_name})"
 
-            # Completion implementation: generate and source completion scripts
-            generate_script_command = (
-                f'echo \"{completion_script_function}\" > {completion_script_path}'
-            )
-            # Execute the command in the shell
-            print(f"Executing '{generate_script_command}'")
-            with open(os.devnull, 'w') as devnull:
-                subprocess.run(generate_script_command,
-                               shell=True, check=True, stderr=devnull)
+            # Try generating and auto-sourcing completion scripts
+            try:
+                source_command = (
+                    f'source {completion_script_path} > /dev/null 2>&1'
+                )
+
+                old_config_string = (
+                    "# Shell completion configuration for the Click Python " +
+                    "package\n" + f"{program_name}"
+                )
+
+                remove_shell_configuration(
+                    shell_config_file=shell_config_file,
+                    config_string=old_config_string,
+                    verbose=verbose
+                )
+
+                add_shell_configuration(
+                    shell_config_file=shell_config_file,
+                    config_string=source_command,
+                    verbose=verbose,
+                )
+
+                generate_script_command = (
+                    f'echo \"{completion_script_function}\" > {completion_script_path}'
+                )
+
+                # Execute the command in the shell
+                print(f"Executing '{generate_script_command}'")
+                with open(os.devnull, 'w') as devnull:
+                    subprocess.run(generate_script_command,
+                                   shell=True, check=True, stderr=devnull)
+
+            # Fallback to eval implementation
+            except:
+                fallback_eval_command = (
+                    f'eval \"$({completion_script_function}={shell.value}_source '
+                    f'{program_name})\"'
+                )
+                safe_eval_command = (
+                    f"command -v {program_name} > /dev/null 2>&1 && "
+                    f"{fallback_eval_command}"
+                )
+                add_shell_configuration(
+                    shell_config_file=shell_config_file,
+                    config_string=safe_eval_command,
+                    verbose=verbose,
+                )
 
         else:
             raise NotImplementedError
